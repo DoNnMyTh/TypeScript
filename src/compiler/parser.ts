@@ -690,7 +690,7 @@ namespace ts {
             // Prime the scanner.
             nextToken();
             if (token() === SyntaxKind.EndOfFileToken) {
-                sourceFile.endOfFileToken = <EndOfFileToken>parseTokenNode();
+                sourceFile.endOfFileToken = parseTokenNode<EndOfFileToken>();
             }
             else if (token() === SyntaxKind.OpenBraceToken ||
                 lookAhead(() => token() === SyntaxKind.StringLiteral)) {

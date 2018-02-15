@@ -195,7 +195,7 @@ namespace ts.codefix {
     }
 
     function tryDeleteNamedImportBinding(changes: textChanges.ChangeTracker, sourceFile: SourceFile, namedBindings: NamedImportBindings): void {
-        if ((<ImportClause>namedBindings.parent).name) {
+        if (namedBindings.parent.name) {
             // Delete named imports while preserving the default import
             // import d|, * as ns| from './file'
             // import d|, { a }| from './file'

@@ -951,7 +951,7 @@ namespace ts {
 
         function emitEntityName(node: EntityName) {
             if (node.kind === SyntaxKind.Identifier) {
-                emitExpression(<Identifier>node);
+                emitExpression(node);
             }
             else {
                 emit(node);
@@ -1709,7 +1709,7 @@ namespace ts {
                     emit(node);
                 }
                 else {
-                    emitExpression(<Expression>node);
+                    emitExpression(node);
                 }
             }
         }

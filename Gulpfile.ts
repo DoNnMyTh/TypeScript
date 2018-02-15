@@ -1116,7 +1116,7 @@ gulp.task("lint", "Runs tslint on the compiler sources. Optional arguments are: 
     const files = fileMatcher
         ? `src/**/${fileMatcher}`
         : `Gulpfile.ts "scripts/generateLocalizedDiagnosticMessages.ts" "scripts/tslint/**/*.ts" "src/**/*.ts" --exclude "src/lib/*.d.ts"`;
-    const cmd = `node node_modules/tslint/bin/tslint ${files} --formatters-dir ./built/local/tslint/formatters --format autolinkableStylish`;
+    const cmd = `node node_modules/tslint/bin/tslint --project src/tsconfig-base.json --formatters-dir ./built/local/tslint/formatters`;
     console.log("Linting: " + cmd);
     child_process.execSync(cmd, { stdio: [0, 1, 2] });
     if (fold.isTravis()) console.log(fold.end("lint"));

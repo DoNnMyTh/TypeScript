@@ -390,7 +390,7 @@ namespace ts.BreakpointResolver {
 
                 // If this is a destructuring pattern, set breakpoint in binding pattern
                 if (isBindingPattern(variableDeclaration.name)) {
-                    return spanInBindingPattern(<BindingPattern>variableDeclaration.name);
+                    return spanInBindingPattern(variableDeclaration.name);
                 }
 
                 // Breakpoint is possible in variableDeclaration only if there is initialization
@@ -420,7 +420,7 @@ namespace ts.BreakpointResolver {
             function spanInParameterDeclaration(parameter: ParameterDeclaration): TextSpan {
                 if (isBindingPattern(parameter.name)) {
                     // Set breakpoint in binding pattern
-                    return spanInBindingPattern(<BindingPattern>parameter.name);
+                    return spanInBindingPattern(parameter.name);
                 }
                 else if (canHaveSpanInParameterDeclaration(parameter)) {
                     return textSpan(parameter);

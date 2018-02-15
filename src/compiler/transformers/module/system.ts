@@ -343,13 +343,12 @@ namespace ts {
                     continue;
                 }
 
-                const exportDecl = <ExportDeclaration>externalImport;
-                if (!exportDecl.exportClause) {
+                if (!externalImport.exportClause) {
                     // export * from ...
                     continue;
                 }
 
-                for (const element of exportDecl.exportClause.elements) {
+                for (const element of externalImport.exportClause.elements) {
                     // write name of indirectly exported entry, i.e. 'export {x} from ...'
                     exportedNames.push(
                         createPropertyAssignment(
@@ -472,7 +471,7 @@ namespace ts {
                     const importVariableName = getLocalNameForExternalImport(entry, currentSourceFile);
                     switch (entry.kind) {
                         case SyntaxKind.ImportDeclaration:
-                            if (!(<ImportDeclaration>entry).importClause) {
+                            if (!entry.importClause) {
                                 // 'import "..."' case
                                 // module is imported only for side-effects, no emit required
                                 break;

@@ -350,8 +350,8 @@ namespace ts {
             // and also for non-optional initialized parameters that aren't a parameter property
             // these types may need to add `undefined`.
             const shouldUseResolverType = declaration.kind === SyntaxKind.Parameter &&
-                (resolver.isRequiredInitializedParameter(declaration as ParameterDeclaration) ||
-                 resolver.isOptionalUninitializedParameterProperty(declaration as ParameterDeclaration));
+                (resolver.isRequiredInitializedParameter(declaration) ||
+                 resolver.isOptionalUninitializedParameterProperty(declaration));
             if (type && !shouldUseResolverType) {
                 // Write the type
                 emitType(type);
@@ -839,10 +839,10 @@ namespace ts {
         function isVisibleNamedBinding(namedBindings: NamespaceImport | NamedImports): boolean {
             if (namedBindings) {
                 if (namedBindings.kind === SyntaxKind.NamespaceImport) {
-                    return resolver.isDeclarationVisible(<NamespaceImport>namedBindings);
+                    return resolver.isDeclarationVisible(namedBindings);
                 }
                 else {
-                    return forEach((<NamedImports>namedBindings).elements, namedImport => resolver.isDeclarationVisible(namedImport));
+                    return namedBindings.elements.some(namedImport => resolver.isDeclarationVisible(namedImport));
                 }
             }
         }

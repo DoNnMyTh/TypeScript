@@ -194,7 +194,7 @@ namespace ts.refactor {
     }
 
     function convertVariableStatement(sourceFile: SourceFile, statement: VariableStatement, changes: textChanges.ChangeTracker, checker: TypeChecker, identifiers: Identifiers, target: ScriptTarget): void {
-        const { declarationList } = statement as VariableStatement;
+        const { declarationList } = statement;
         let foundImport = false;
         const newNodes = flatMap(declarationList.declarations, decl => {
             const { name, initializer } = decl;

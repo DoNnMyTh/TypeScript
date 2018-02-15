@@ -727,7 +727,7 @@ namespace ts {
                     }
 
                     if (name.kind === SyntaxKind.ComputedPropertyName) {
-                        const expr = (<ComputedPropertyName>name).expression;
+                        const expr = name.expression;
                         if (expr.kind === SyntaxKind.PropertyAccessExpression) {
                             return (<PropertyAccessExpression>expr).name.text;
                         }

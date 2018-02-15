@@ -140,7 +140,7 @@ namespace ts.codefix {
             case SyntaxKind.Constructor:
                 return true;
             case SyntaxKind.FunctionExpression:
-                return !!(declaration as FunctionExpression).name;
+                return !!declaration.name;
         }
         return false;
     }

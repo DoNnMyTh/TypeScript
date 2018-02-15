@@ -97,7 +97,7 @@ namespace ts.NavigateTo {
                     containers.unshift(text);
                 }
                 else if (name.kind === SyntaxKind.ComputedPropertyName) {
-                    return tryAddComputedPropertyName((<ComputedPropertyName>name).expression, containers, /*includeLastPortion*/ true);
+                    return tryAddComputedPropertyName(name.expression, containers, /*includeLastPortion*/ true);
                 }
                 else {
                     // Don't know how to add this.

@@ -42,12 +42,12 @@ namespace Utils {
 
         getDirectory(name: string): VirtualDirectory {
             const entry = this.getFileSystemEntry(name);
-            return entry.isDirectory() ? <VirtualDirectory>entry : undefined;
+            return entry.isDirectory() ? entry : undefined;
         }
 
         getFile(name: string): VirtualFile {
             const entry = this.getFileSystemEntry(name);
-            return entry.isFile() ? <VirtualFile>entry : undefined;
+            return entry.isFile() ? entry : undefined;
         }
     }
 
@@ -66,7 +66,7 @@ namespace Utils {
                 return directory;
             }
             else if (entry.isDirectory()) {
-                return <VirtualDirectory>entry;
+                return entry;
             }
             else {
                 return undefined;

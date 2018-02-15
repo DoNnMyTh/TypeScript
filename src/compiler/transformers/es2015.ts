@@ -1995,7 +1995,7 @@ namespace ts {
             // If we are here it is because this is a destructuring assignment.
             if (isDestructuringAssignment(node)) {
                 return flattenDestructuringAssignment(
-                    <DestructuringAssignment>node,
+                    node,
                     visitor,
                     context,
                     FlattenLevel.All,

@@ -1621,7 +1621,7 @@ Actual: ${stringify(fullActual)}`);
                             const diagnostics = ts.getPreEmitDiagnostics(this.languageService.getProgram());
                             for (const diagnostic of diagnostics) {
                                 if (!ts.isString(diagnostic.messageText)) {
-                                    let chainedMessage = <ts.DiagnosticMessageChain>diagnostic.messageText;
+                                    let chainedMessage = diagnostic.messageText;
                                     let indentation = " ";
                                     while (chainedMessage) {
                                         resultString += indentation + chainedMessage.messageText + Harness.IO.newLine();

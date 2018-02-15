@@ -570,17 +570,15 @@ namespace ts {
     export function getTextOfPropertyName(name: PropertyName): __String {
         switch (name.kind) {
             case SyntaxKind.Identifier:
-                return (<Identifier>name).escapedText;
+                return name.escapedText;
             case SyntaxKind.StringLiteral:
             case SyntaxKind.NumericLiteral:
-                return escapeLeadingUnderscores((<LiteralExpression>name).text);
+                return escapeLeadingUnderscores(name.text);
             case SyntaxKind.ComputedPropertyName:
-                if (isStringOrNumericLiteral((<ComputedPropertyName>name).expression)) {
-                    return escapeLeadingUnderscores((<LiteralExpression>(<ComputedPropertyName>name).expression).text);
-                }
+                return isStringOrNumericLiteral(name.expression) ? escapeLeadingUnderscores(name.expression.text) : undefined;
+            default:
+                Debug.assertNever(name);
         }
-
-        return undefined;
     }
 
     export function entityNameToString(name: EntityNameOrEntityNameExpression): string {
@@ -906,11 +904,10 @@ namespace ts {
                     return;
                 default:
                     if (isFunctionLike(node)) {
-                        const name = (<FunctionLikeDeclaration>node).name;
-                        if (name && name.kind === SyntaxKind.ComputedPropertyName) {
+                        if (node.name && node.name.kind === SyntaxKind.ComputedPropertyName) {
                             // Note that we will not include methods/accessors of a class because they would require
                             // first descending into the class. This is by design.
-                            traverse((<ComputedPropertyName>name).expression);
+                            traverse(node.name.expression);
                             return;
                         }
                     }

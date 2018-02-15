@@ -197,10 +197,10 @@ namespace ts.NavigationBar {
                 const {namedBindings} = importClause;
                 if (namedBindings) {
                     if (namedBindings.kind === SyntaxKind.NamespaceImport) {
-                        addLeafNode(<NamespaceImport>namedBindings);
+                        addLeafNode(namedBindings);
                     }
                     else {
-                        for (const element of (<NamedImports>namedBindings).elements) {
+                        for (const element of namedBindings.elements) {
                             addLeafNode(element);
                         }
                     }
