@@ -290,10 +290,8 @@ namespace ts.refactor {
                 case SyntaxKind.ShorthandPropertyAssignment:
                 case SyntaxKind.SpreadAssignment:
                     return undefined;
-                case SyntaxKind.PropertyAssignment: {
-                    const { name, initializer } = prop as PropertyAssignment;
-                    return !isIdentifier(name) ? undefined : convertExportsDotXEquals(name.text, initializer);
-                }
+                case SyntaxKind.PropertyAssignment:
+                    return !isIdentifier(prop.name) ? undefined : convertExportsDotXEquals(prop.name.text, prop.initializer);
                 case SyntaxKind.MethodDeclaration: {
                     const m = prop as MethodDeclaration;
                     return !isIdentifier(m.name) ? undefined : functionExpressionToDeclaration(m.name.text, [createToken(SyntaxKind.ExportKeyword)], m);

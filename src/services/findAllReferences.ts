@@ -1125,7 +1125,7 @@ namespace ts.FindAllReferences.Core {
                         }
                     });
                 }
-                else if (isImplementationExpression(<Expression>body)) {
+                else if (isImplementationExpression(body)) {
                     addReference(body);
                 }
             }

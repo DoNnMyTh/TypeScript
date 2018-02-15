@@ -475,8 +475,8 @@ namespace ts.NavigationBar {
         else {
             const parentNode = node.parent && node.parent.parent;
             if (parentNode && parentNode.kind === SyntaxKind.VariableStatement) {
-                if ((<VariableStatement>parentNode).declarationList.declarations.length > 0) {
-                    const nameIdentifier = (<VariableStatement>parentNode).declarationList.declarations[0].name;
+                if (parentNode.declarationList.declarations.length > 0) {
+                    const nameIdentifier = parentNode.declarationList.declarations[0].name;
                     if (nameIdentifier.kind === SyntaxKind.Identifier) {
                         return nameIdentifier.text;
                     }

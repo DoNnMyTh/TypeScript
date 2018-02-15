@@ -2027,7 +2027,7 @@ namespace ts {
                     return name;
 
                 case SyntaxKind.QualifiedName:
-                    return serializeQualifiedNameAsExpression(<QualifiedName>node, useFallback);
+                    return serializeQualifiedNameAsExpression(node, useFallback);
             }
         }
 
@@ -2091,9 +2091,9 @@ namespace ts {
         function getExpressionForPropertyName(member: ClassElement | EnumMember, generateNameForComputedPropertyName: boolean): Expression {
             const name = member.name;
             if (isComputedPropertyName(name)) {
-                return generateNameForComputedPropertyName && !isSimpleInlineableExpression((<ComputedPropertyName>name).expression)
+                return generateNameForComputedPropertyName && !isSimpleInlineableExpression(name.expression)
                     ? getGeneratedNameForNode(name)
-                    : (<ComputedPropertyName>name).expression;
+                    : name.expression;
             }
             else if (isIdentifier(name)) {
                 return createLiteral(idText(name));
@@ -2961,7 +2961,7 @@ namespace ts {
             const body = node.body;
             if (body.kind === SyntaxKind.ModuleBlock) {
                 saveStateAndInvoke(body, body => addRange(statements, visitNodes((<ModuleBlock>body).statements, namespaceElementVisitor, isStatement)));
-                statementsLocation = (<ModuleBlock>body).statements;
+                statementsLocation = body.statements;
                 blockLocation = body;
             }
             else {

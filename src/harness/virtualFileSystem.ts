@@ -149,7 +149,7 @@ namespace Utils {
                     return undefined;
                 }
                 else if (entry.isDirectory()) {
-                    directory = <VirtualDirectory>entry;
+                    directory = entry;
                 }
                 else {
                     return entry;

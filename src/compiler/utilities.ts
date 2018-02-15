@@ -1218,15 +1218,15 @@ namespace ts {
     }
 
     export function getInvokedExpression(node: CallLikeExpression): Expression {
-        if (node.kind === SyntaxKind.TaggedTemplateExpression) {
-            return (<TaggedTemplateExpression>node).tag;
+        switch (node.kind) {
+            case SyntaxKind.TaggedTemplateExpression:
+                return node.tag;
+            case SyntaxKind.JsxOpeningElement:
+            case SyntaxKind.JsxSelfClosingElement:
+                return node.tagName;
+            default:
+                return node.expression;
         }
-        else if (isJsxOpeningLikeElement(node)) {
-            return node.tagName;
-        }
-
-        // Will either be a CallExpression, NewExpression, or Decorator.
-        return (<CallExpression | Decorator>node).expression;
     }
 
     export function nodeCanBeDecorated(node: ClassDeclaration): true;
@@ -1558,7 +1558,7 @@ namespace ts {
         if (node.kind === SyntaxKind.ImportEqualsDeclaration) {
             const reference = (<ImportEqualsDeclaration>node).moduleReference;
             if (reference.kind === SyntaxKind.ExternalModuleReference) {
-                return (<ExternalModuleReference>reference).expression;
+                return reference.expression;
             }
         }
         if (node.kind === SyntaxKind.ExportDeclaration) {
@@ -1570,20 +1570,20 @@ namespace ts {
     }
 
     export function getNamespaceDeclarationNode(node: ImportDeclaration | ImportEqualsDeclaration | ExportDeclaration): ImportEqualsDeclaration | NamespaceImport {
-        if (node.kind === SyntaxKind.ImportEqualsDeclaration) {
-            return <ImportEqualsDeclaration>node;
-        }
-
-        const importClause = (<ImportDeclaration>node).importClause;
-        if (importClause && importClause.namedBindings && importClause.namedBindings.kind === SyntaxKind.NamespaceImport) {
-            return <NamespaceImport>importClause.namedBindings;
+        switch (node.kind) {
+            case SyntaxKind.ImportDeclaration:
+                return node.importClause && tryCast(node.importClause.namedBindings, isNamespaceImport);
+            case SyntaxKind.ImportEqualsDeclaration:
+                return node;
+            case SyntaxKind.ExportDeclaration:
+                return undefined;
+            default:
+                return Debug.assertNever(node);
         }
     }
 
     export function isDefaultImport(node: ImportDeclaration | ImportEqualsDeclaration | ExportDeclaration) {
-        return node.kind === SyntaxKind.ImportDeclaration
-            && (<ImportDeclaration>node).importClause
-            && !!(<ImportDeclaration>node).importClause.name;
+        return node.kind === SyntaxKind.ImportDeclaration && node.importClause && !!node.importClause.name;
     }
 
     export function hasQuestionToken(node: Node) {

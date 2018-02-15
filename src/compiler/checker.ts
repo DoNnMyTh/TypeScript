@@ -1721,7 +1721,7 @@ namespace ts {
         }
 
         function getTargetOfImportClause(node: ImportClause, dontResolveAlias: boolean): Symbol {
-            const moduleSymbol = resolveExternalModuleName(node, (<ImportDeclaration>node.parent).moduleSpecifier);
+            const moduleSymbol = resolveExternalModuleName(node, node.parent.moduleSpecifier);
 
             if (moduleSymbol) {
                 let exportDefaultSymbol: Symbol;
@@ -1746,7 +1746,7 @@ namespace ts {
         }
 
         function getTargetOfNamespaceImport(node: NamespaceImport, dontResolveAlias: boolean): Symbol {
-            const moduleSpecifier = (<ImportDeclaration>node.parent.parent).moduleSpecifier;
+            const moduleSpecifier = node.parent.parent.moduleSpecifier;
             return resolveESModuleSymbol(resolveExternalModuleName(node, moduleSpecifier), moduleSpecifier, dontResolveAlias);
         }
 
@@ -1836,7 +1836,7 @@ namespace ts {
         }
 
         function getTargetOfImportSpecifier(node: ImportSpecifier, dontResolveAlias: boolean): Symbol {
-            return getExternalModuleMember(<ImportDeclaration>node.parent.parent.parent, node, dontResolveAlias);
+            return getExternalModuleMember(node.parent.parent.parent, node, dontResolveAlias);
         }
 
         function getTargetOfNamespaceExportDeclaration(node: NamespaceExportDeclaration, dontResolveAlias: boolean): Symbol {
@@ -1937,7 +1937,7 @@ namespace ts {
                 }
                 else if (isInternalModuleImportEqualsDeclaration(node)) {
                     // import foo = <symbol>
-                    checkExpressionCached(<Expression>(<ImportEqualsDeclaration>node).moduleReference);
+                    checkExpressionCached(<Expression>node.moduleReference);
                 }
             }
         }
@@ -21909,11 +21909,13 @@ namespace ts {
                 // check private/protected variable access
                 const parent = node.parent.parent;
                 const parentType = getTypeForBindingElementParent(parent);
-                const name = node.propertyName || <Identifier>node.name;
-                const property = getPropertyOfType(parentType, getTextOfPropertyName(name));
-                markPropertyAsReferenced(property, /*nodeForCheckWriteOnly*/ undefined, /*isThisAccess*/ false); // A destructuring is never a write-only reference.
-                if (parent.initializer && property) {
-                    checkPropertyAccessibility(parent, parent.initializer, parentType, property);
+                const name = node.propertyName || node.name;
+                if (!isBindingPattern(name)) {
+                    const property = getPropertyOfType(parentType, getTextOfPropertyName(name));
+                    markPropertyAsReferenced(property, /*nodeForCheckWriteOnly*/ undefined, /*isThisAccess*/ false); // A destructuring is never a write-only reference.
+                    if (parent.initializer && property) {
+                        checkPropertyAccessibility(parent, parent.initializer, parentType, property);
+                    }
                 }
             }
 

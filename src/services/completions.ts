@@ -1429,10 +1429,10 @@ namespace ts.Completions {
                 // We are completing on contextual types, but may also include properties
                 // other than those within the declared type.
                 isNewIdentifierLocation = true;
-                const typeForObject = typeChecker.getContextualType(<ObjectLiteralExpression>objectLikeContainer);
+                const typeForObject = typeChecker.getContextualType(objectLikeContainer);
                 if (!typeForObject) return false;
                 typeMembers = getPropertiesForCompletion(typeForObject, typeChecker, /*isForAccess*/ false);
-                existingMembers = (<ObjectLiteralExpression>objectLikeContainer).properties;
+                existingMembers = objectLikeContainer.properties;
             }
             else {
                 Debug.assert(objectLikeContainer.kind === SyntaxKind.ObjectBindingPattern);

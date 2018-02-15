@@ -2023,7 +2023,7 @@ namespace ts {
                             );
                         }
                         else {
-                            assignment = createBinary(<Identifier>decl.name, SyntaxKind.EqualsToken, visitNode(decl.initializer, visitor, isExpression));
+                            assignment = createBinary(decl.name, SyntaxKind.EqualsToken, visitNode(decl.initializer, visitor, isExpression));
                             setTextRange(assignment, decl);
                         }
 
@@ -2632,10 +2632,10 @@ namespace ts {
 
             function visit(node: Identifier | BindingPattern) {
                 if (node.kind === SyntaxKind.Identifier) {
-                    state.hoistedLocalVariables.push((<Identifier>node));
+                    state.hoistedLocalVariables.push(node);
                 }
                 else {
-                    for (const element of (<BindingPattern>node).elements) {
+                    for (const element of node.elements) {
                         if (!isOmittedExpression(element)) {
                             visit(element.name);
                         }
@@ -2716,7 +2716,7 @@ namespace ts {
             convertedLoopState = outerConvertedLoopState;
 
             if (loopOutParameters.length || lexicalEnvironment) {
-                const statements = isBlock(loopBody) ? (<Block>loopBody).statements.slice() : [loopBody];
+                const statements = isBlock(loopBody) ? loopBody.statements.slice() : [loopBody];
                 if (loopOutParameters.length) {
                     copyOutParameters(loopOutParameters, CopyDirection.ToOutParameter, statements);
                 }

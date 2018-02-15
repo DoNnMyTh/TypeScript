@@ -57,14 +57,9 @@ namespace ts.SignatureHelp {
         }
 
         // See if we can find some symbol with the call expression name that has call signatures.
-        const callExpression = <CallExpression>argumentInfo.invocation;
+        const callExpression = argumentInfo.invocation;
         const expression = callExpression.expression;
-        const name = expression.kind === SyntaxKind.Identifier
-            ? <Identifier>expression
-            : expression.kind === SyntaxKind.PropertyAccessExpression
-                ? (<PropertyAccessExpression>expression).name
-                : undefined;
-
+        const name = isIdentifier(expression) ? expression : isPropertyAccessExpression(expression) ? expression.name : undefined;
         if (!name || !name.escapedText) {
             return undefined;
         }
@@ -160,7 +155,7 @@ namespace ts.SignatureHelp {
         }
         else if (node.parent.kind === SyntaxKind.TemplateSpan && node.parent.parent.parent.kind === SyntaxKind.TaggedTemplateExpression) {
             const templateSpan = <TemplateSpan>node.parent;
-            const templateExpression = <TemplateExpression>templateSpan.parent;
+            const templateExpression = templateSpan.parent;
             const tagExpression = <TaggedTemplateExpression>templateExpression.parent;
             Debug.assert(templateExpression.kind === SyntaxKind.TemplateExpression);
 

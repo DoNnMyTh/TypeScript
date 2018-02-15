@@ -3415,13 +3415,13 @@ namespace ts {
         switch (property.kind) {
             case SyntaxKind.GetAccessor:
             case SyntaxKind.SetAccessor:
-                return createExpressionForAccessorDeclaration(node.properties, <AccessorDeclaration>property, receiver, node.multiLine);
+                return createExpressionForAccessorDeclaration(node.properties, property, receiver, node.multiLine);
             case SyntaxKind.PropertyAssignment:
-                return createExpressionForPropertyAssignment(<PropertyAssignment>property, receiver);
+                return createExpressionForPropertyAssignment(property, receiver);
             case SyntaxKind.ShorthandPropertyAssignment:
-                return createExpressionForShorthandPropertyAssignment(<ShorthandPropertyAssignment>property, receiver);
+                return createExpressionForShorthandPropertyAssignment(property, receiver);
             case SyntaxKind.MethodDeclaration:
-                return createExpressionForMethodDeclaration(<MethodDeclaration>property, receiver);
+                return createExpressionForMethodDeclaration(property, receiver);
         }
     }
 
@@ -4065,13 +4065,13 @@ namespace ts {
 
     export function parenthesizePostfixOperand(operand: Expression) {
         return isLeftHandSideExpression(operand)
-            ? <LeftHandSideExpression>operand
+            ? operand
             : setTextRange(createParen(operand), operand);
     }
 
     export function parenthesizePrefixOperand(operand: Expression) {
         return isUnaryExpression(operand)
-            ? <UnaryExpression>operand
+            ? operand
             : setTextRange(createParen(operand), operand);
     }
 

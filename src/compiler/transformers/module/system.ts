@@ -490,7 +490,7 @@ namespace ts {
 
                         case SyntaxKind.ExportDeclaration:
                             Debug.assert(importVariableName !== undefined);
-                            if ((<ExportDeclaration>entry).exportClause) {
+                            if (entry.exportClause) {
                                 //  export {a, b as c} from 'foo'
                                 //
                                 // emit as:
@@ -500,7 +500,7 @@ namespace ts {
                                 //     "c": _["b"]
                                 //  });
                                 const properties: PropertyAssignment[] = [];
-                                for (const e of (<ExportDeclaration>entry).exportClause.elements) {
+                                for (const e of entry.exportClause.elements) {
                                     properties.push(
                                         createPropertyAssignment(
                                             createLiteral(idText(e.name)),

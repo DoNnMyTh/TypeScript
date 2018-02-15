@@ -865,11 +865,11 @@ namespace ts {
                     }
                     if (node.importClause.namedBindings.kind === SyntaxKind.NamespaceImport) {
                         write("* as ");
-                        writeTextOfNode(currentText, (<NamespaceImport>node.importClause.namedBindings).name);
+                        writeTextOfNode(currentText, node.importClause.namedBindings.name);
                     }
                     else {
                         write("{ ");
-                        emitCommaList((<NamedImports>node.importClause.namedBindings).elements, emitImportOrExportSpecifier, resolver.isDeclarationVisible);
+                        emitCommaList(node.importClause.namedBindings.elements, emitImportOrExportSpecifier, resolver.isDeclarationVisible);
                         write(" }");
                     }
                 }
@@ -886,18 +886,8 @@ namespace ts {
             // external modules since they are indistinguishable from script files with ambient modules. To fix this in such d.ts files we'll emit top level 'export {}'
             // so compiler will treat them as external modules.
             resultHasExternalModuleIndicator = resultHasExternalModuleIndicator || parent.kind !== SyntaxKind.ModuleDeclaration;
-            let moduleSpecifier: Node;
-            if (parent.kind === SyntaxKind.ImportEqualsDeclaration) {
-                const node = parent as ImportEqualsDeclaration;
-                moduleSpecifier = getExternalModuleImportEqualsDeclarationExpression(node);
-            }
-            else if (parent.kind === SyntaxKind.ModuleDeclaration) {
-                moduleSpecifier = (<ModuleDeclaration>parent).name;
-            }
-            else {
-                const node = parent as (ImportDeclaration | ExportDeclaration);
-                moduleSpecifier = node.moduleSpecifier;
-            }
+            const moduleSpecifier = parent.kind === SyntaxKind.ImportEqualsDeclaration ? getExternalModuleImportEqualsDeclarationExpression(parent) :
+                parent.kind === SyntaxKind.ModuleDeclaration ? parent.name : parent.moduleSpecifier;
 
             if (moduleSpecifier.kind === SyntaxKind.StringLiteral && isBundledEmit && (compilerOptions.out || compilerOptions.outFile)) {
                 const moduleName = getExternalModuleNameFromDeclaration(host, resolver, parent);

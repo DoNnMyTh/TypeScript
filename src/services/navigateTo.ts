@@ -140,7 +140,7 @@ namespace ts.NavigateTo {
         // portion into the container array.
         const name = getNameOfDeclaration(declaration);
         if (name.kind === SyntaxKind.ComputedPropertyName) {
-            if (!tryAddComputedPropertyName((<ComputedPropertyName>name).expression, containers, /*includeLastPortion*/ false)) {
+            if (!tryAddComputedPropertyName(name.expression, containers, /*includeLastPortion*/ false)) {
                 return undefined;
             }
         }

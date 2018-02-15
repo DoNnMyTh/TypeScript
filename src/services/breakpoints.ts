@@ -540,10 +540,7 @@ namespace ts.BreakpointResolver {
 
             function spanInArrayLiteralOrObjectLiteralDestructuringPattern(node: DestructuringPattern): TextSpan {
                 Debug.assert(node.kind !== SyntaxKind.ArrayBindingPattern && node.kind !== SyntaxKind.ObjectBindingPattern);
-                const elements: NodeArray<Expression | ObjectLiteralElement> =
-                    node.kind === SyntaxKind.ArrayLiteralExpression ?
-                        (<ArrayLiteralExpression>node).elements :
-                        (<ObjectLiteralExpression>node).properties;
+                const elements: NodeArray<Expression | ObjectLiteralElement> = node.kind === SyntaxKind.ArrayLiteralExpression ? node.elements : (node as ObjectLiteralExpression).properties;
 
                 const firstBindingElement = forEach(elements,
                     element => element.kind !== SyntaxKind.OmittedExpression ? element : undefined);

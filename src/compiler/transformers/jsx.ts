@@ -179,7 +179,7 @@ namespace ts {
                 if (node.expression === undefined) {
                     return createTrue();
                 }
-                return visitJsxExpression(<JsxExpression>node);
+                return visitJsxExpression(node);
             }
             else {
                 Debug.failBadSyntaxKind(node);
@@ -279,10 +279,10 @@ namespace ts {
 
         function getTagName(node: JsxElement | JsxOpeningLikeElement): Expression {
             if (node.kind === SyntaxKind.JsxElement) {
-                return getTagName((<JsxElement>node).openingElement);
+                return getTagName(node.openingElement);
             }
             else {
-                const name = (<JsxOpeningLikeElement>node).tagName;
+                const name = node.tagName;
                 if (isIdentifier(name) && isIntrinsicJsxName(name.escapedText)) {
                     return createLiteral(idText(name));
                 }
